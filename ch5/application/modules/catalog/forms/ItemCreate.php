@@ -250,13 +250,13 @@ class Catalog_Form_ItemCreate extends Zend_Form {
       
       $countryIndex =  $values['country'];
       
-      $country = $this->country_entities['countryIndex'];
+      $country = $this->country_entities[$countryIndex];
       
       $values['country'] = $country;
       
-      $values['grade'] = $form->getElement('grade')->getMultiOption($values['grade']);    
+      $values['grade'] = $this->getElement('grade')->getMultiOption($values['grade']);    
       
-      $values['type'] = $form->getElement('type')->getMultiOption($values['type']);    
+      $values['type'] = $this->getElement('type')->getMultiOption($values['type']);    
        
       return $values;
   }
