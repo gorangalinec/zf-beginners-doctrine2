@@ -64,7 +64,7 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
     // delete records from database
     if ($input->isValid()) {
   
-       $this->service->deleteItemsImmediately($input->id);   
+       $this->service->deleteItems($input->ids, true);   
      
        $this->_helper->getHelper('FlashMessenger')->addMessage('The records were successfully deleted.');
       

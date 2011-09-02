@@ -10,18 +10,16 @@ use Doctrine\ORM\DBALException;
  */
 class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
     
-    protected $em;
-    protected $stampItemRepository;
-    protected static $countries;
-    
-       
+   protected $em;
+   protected $stampItemRepository;
+   protected static $countries;
+          
    public function __construct()
    {
        $this->em = Zend_Registry::get('em');
        $this->stampItemRepository = $this->em->getRepository('Square\Entity\StampItem');
    }
-   
-      
+         
    public function __call($method, $args) 
    {
         if (!method_exists("Square\Entity\Repository\StampItemRepository", $method)) {
@@ -127,42 +125,7 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
         return $result;
     }
     
-    /*
-    //--protected function createItemfromForm_(Catalog_Form_ItemCreate $form)
-    protected function createItemfromForm_(array $values)
-    {
-        
-        $values = $form->getValues();
-
-        $countryIndex =  $values['country'];
-      
-        $country = self::$countries[$countryIndex]; 
-      
-        $values['country'] = $country;
-      
-        $values['grade'] = $form->getElement('grade')->getMultiOption($values['grade']);    
-      
-        $values['type'] = $form->getElement('type')->getMultiOption($values['type']);    
-        
-        $stamp_item = new StampItem($values);      
-                       
-        $date = new Zend_Date(); // date/time now.
-                
-        $stamp_item->setDate($date);
-
-        $stamp_item->setDisplaystatus(false);
-                
-        // default value for expiration (of item's display for sale) will be 00:00:0000
-        $expirationDate = new \Zend_Date(array('year' => 0, 'month' => 0, 'day' => 0));
-                
-        $stamp_item->setDisplayuntil($expirationDate);
-        
-        return $stamp_item;
-     }
-     */
-           
     // The 2nd parameter indicates whether to immediately create the item.
-    //--public function createItemfromForm(Catalog_Form_ItemCreate $form, $flushNow = false)
     public function createItemfromForm(array $values, $flushNow = false)
     {
         //--$stamp_item = $this->createItemfromForm_($values);
@@ -198,8 +161,7 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
         return $item;
     }
     
-     
-    //--public function updateItemfromForm(Catalog_Form_ItemUpdate $form, $flushNow = false)
+   
     public function updateItemfromForm(array $values, $flushNow = false)            
     {
         $stamp_item = $this->findOneBy(array('id' => $values['id']));  //--$item = $this->getReference($values['id']);              
@@ -230,8 +192,7 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
             
             $msg = $e->getMessage();
         }
-            
-    }
+   }
 }
 
 ?>

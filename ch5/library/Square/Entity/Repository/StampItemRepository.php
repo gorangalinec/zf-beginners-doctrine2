@@ -74,7 +74,7 @@ class StampItemRepository extends EntityRepository {
     }  
  
     // DQL is prefered to calling delete() in a loop.
-    public function deleteItemsImmediately(array $ids)
+    public function deleteItems(array $ids, $flush=false)
     {
         $ids_string = implode(",", $ids);
         
@@ -86,7 +86,11 @@ class StampItemRepository extends EntityRepository {
             $query->execute();
             
             // QUESTION: Is flush() required for a delete?
-            $em->flush();
+            if ($flush) {
+                
+              $em->flush();
+                
+            }
         
         } catch (\Exception $e) {
             // log error
