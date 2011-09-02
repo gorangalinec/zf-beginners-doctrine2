@@ -154,7 +154,11 @@ class Catalog_Form_ItemUpdate extends Catalog_Form_ItemCreate {
                                 'day' => $values['DisplayUntil_day'])
                                 ); 
       } 
-       
+            
+      unset($values['creationdate'], $values['DisplayUntil'],
+              $values['DisplayUntil_day'], $values['DisplayUntil_month'],
+              $values['DisplayUntil_year']);
+      
       return $values;
   }
 }

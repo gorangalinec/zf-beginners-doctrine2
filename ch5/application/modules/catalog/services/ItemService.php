@@ -202,25 +202,11 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
     //--public function updateItemfromForm(Catalog_Form_ItemUpdate $form, $flushNow = false)
     public function updateItemfromForm(array $values, $flushNow = false)            
     {
-        /*
-        $values = $form->getValues();
-
-        $countryIndex =  $values['country'];
-      
-        $country = self::$countries[$countryIndex]; 
-      
-        $values['country'] = $country;
-      
-        $values['grade'] = $form->getElement('grade')->getMultiOption($values['grade']);    
-      
-        $values['type'] = $form->getElement('type')->getMultiOption($values['type']);    
-        */ 
-        $date = new Zend_Date(); // date/time now.
+        $stamp_item = $this->findOneBy(array('id' => $values['id']));  //--$item = $this->getReference($values['id']);              
                 
-        $item = $this->findOneBy(array('id' => $values[$id]));                
-        //--$item = $this->getReference($values['id']);
-                               
-       $item->fromArray($values);
+        unset($values['id']); // We never need to update the id.
+        
+       $stamp_item->fromArray($values);
        
         try {
             
@@ -232,12 +218,17 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
             }
             
         } catch (ORMException $e) {
+            
             // TODO: log errors.
             
+            $msg = $e->getMessage();
         } catch (DBALException $e) {
+            
+            $msg = $e->getMessage();
             
         } catch(Exception $e) {
             
+            $msg = $e->getMessage();
         }
             
     }
