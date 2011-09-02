@@ -22,6 +22,7 @@ class Catalog_Form_ItemUpdate extends Catalog_Form_ItemCreate {
        ->addFilter('StringTrim');            
     
     // create select input for item display status
+    //Note: 'displaystatus' is lowercase (unlike the book) both here and in /public/form.js
     $display = new Zend_Form_Element_Select('displaystatus', 
       array('onChange' => 
         "javascript:handleInputDisplayOnSelect('displaystatus', 
@@ -38,9 +39,6 @@ class Catalog_Form_ItemUpdate extends Catalog_Form_ItemCreate {
       1 => 'Visible'
     ));
    
-    //TDOO: Don't I need to set the Display Status to either visible or invisible?
-    // Kurt
- 
     // create hidden input for item display date
     $displayUntil = new Zend_Form_Element_Hidden('DisplayUntil');
     
