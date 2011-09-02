@@ -25,11 +25,12 @@ class StampItemRepository extends EntityRepository {
       
       try {
           
-        // $result = $query->getResult(); returns hydrated object
+        // $result = $query->getResult(); returns hydrated StampItem
         $result = $query->getArrayResult(); 
         /* 
-         * This will returns a one-dimensinal array with keys prefixed with either 's_' or 'c_':  
-           $result = $query->getResult(Query::HYDRATE_SCALAR);
+         * This 
+             $result = $query->getResult(Query::HYDRATE_SCALAR);
+         * returns a one-dimensinal array with keys prefixed with either 's_' or 'c_':  
         */   
            
       } catch (\Exception $e) {
@@ -58,10 +59,15 @@ class StampItemRepository extends EntityRepository {
           
         $stampItem = $query->getSingleResult(); 
         
-      } catch (\Exception $e) {
+      } catch (Doctrine\ORM\NoResultException $e) {
           
-          // log error
+          // The exception simply means "not found"
+          
+      } catch(Exception $e) {
+          
+          // This bad and should be logged.
           $msg = $e->getMessage();
+          
       }
       
       return $stampItem;

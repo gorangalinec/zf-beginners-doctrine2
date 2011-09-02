@@ -99,20 +99,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             //$router->addRoute('contact', $route);
             $myroutes['contact'] = $route;
             
-            /* QUESTION: I believe the only login is the admin login, and there is no a user login? 
-            $route = new Zend_Controller_Router_Route(
-                    '/login',
-                    array(
-                        'action' => 'login',
-                        'controller' => 'login',
-                        'module' => 'default'
-                        )
-                    );
-            
-            //$router->addRoute('login', $route);
-            $myroutes['login'] = $route;
-            */
-            
             $route = new Zend_Controller_Router_Route(
                     '/catalog/item/display/:id',
                     array(

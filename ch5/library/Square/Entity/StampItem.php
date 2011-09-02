@@ -154,7 +154,7 @@ class StampItem extends EntityBase {
 
    // Indicates whether the item is viewable.
    /** 
-    * @Column(type="boolean", name="status")
+    * @Column(type="boolean", name="displaystatus")
     */
    protected $displaystatus;
 
