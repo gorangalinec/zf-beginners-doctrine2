@@ -85,6 +85,8 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
         
     public function populateFormById($id, Catalog_Form_ItemCreate $form)
     {
+        static $removeThese = array('displayuntil' => null, 'creationdate' => null);       
+        
         $result = $this->getItemAsArray($id);
         
         if (!empty($result)) {
@@ -94,7 +96,11 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
           
           $dateParts = $zendDate->toArray();
           
-          $countryName = $result[0]['country']['name']; // Square\Entity\Country as array.
+          // Extract the name Country object within the StampItem and use it to...
+          $countryName = $result[0]['country']['name']; 
+          
+          // ...oververwrite the subarray (containing the Country properties) with the country name.
+          $result[0]['country'] = $countryName; 
                     
           $result[0]['DisplayUntil_day'] = $dateParts['day'];
           
@@ -102,6 +108,7 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
           
           $result[0]['DisplayUntil_year'] = $dateParts['year'];
           
+          // Set the correct value for the form's three multi-select elements: country, type and grade.
           $multiSelectElementNames = array('country', 'type', 'grade');
           
           foreach($multiSelectElementNames as $elementName) {
@@ -111,15 +118,9 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
             $key = array_search($result[0][$elementName], $multiOptions);
             $result[0][$elementName] = $key;
           }
-          
-          //TODO: Try removing undisplayed, nonexistant form elements from $result, to see if this
-          // eliminates the "red" labels problem.
-          // Possible technique:
-          // array_filter($array1, $callback)); // use an anonymous function
-          //   or better:
-          // $keys_to_remove = array(....)
-          // -->  array_diff_key
-          $form->populate($result[0]);                
+                                   
+          $values = array_diff_key($result[0], $removeThese);
+          $form->populate($values);
         }
         
         return $result;
