@@ -67,7 +67,7 @@ class Catalog_ItemController extends Zend_Controller_Action {
       if ($form->isValid($this->getRequest()->getPost())) {
 
          // true means also do a flush, to immediately persist the item to the DB.
-         $stampItem = $service->createItemfromForm($form->getWhatsNeeded(), true);
+         $stampItem = $service->createItem($form->getWhatsNeeded(), true);
             
          $this->_helper->getHelper('FlashMessenger')->addMessage('Your submission has been accepted as item #' . $stampItem->id . 
                 '. A moderator will review it and, if approved, it will appear on the site within 48 hours.');

@@ -104,7 +104,7 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       if ($form->isValid($postData)) {
           
             // true means to also do a flush, so the item is save to the database before the _redirect below.
-            $this->service->updateItemfromForm($form->getWhatsNeeded(), true);
+            $this->service->updateItem($form->getWhatsNeeded(), true);
                       
             $this->_helper->getHelper('FlashMessenger')->addMessage('The record was successfully updated.');
             

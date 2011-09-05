@@ -126,9 +126,8 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
     }
     
     // The 2nd parameter indicates whether to immediately create the item.
-    public function createItemfromForm(array $values, $flushNow = false)
+    public function createItem(array $values, $flushNow = false)
     {
-        //--$stamp_item = $this->createItemfromForm_($values);
         $stamp_item = new StampItem($values);      
                        
         $date = new Zend_Date(); // date/time now.
@@ -162,7 +161,7 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
     }
     
    
-    public function updateItemfromForm(array $values, $flushNow = false)            
+    public function updateItem(array $values, $flushNow = false)            
     {
         $stamp_item = $this->findOneBy(array('id' => $values['id']));  //--$item = $this->getReference($values['id']);              
                 
