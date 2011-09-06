@@ -15,8 +15,6 @@ class StampItemRepository extends EntityRepository {
         
     public function getItemAsArray($id)
     {
-      $test = Query::HYDRATE_SCALAR;
-      
       $dql = "SELECT s, c FROM Square\Entity\StampItem s JOIN s.country c WHERE s.id = :id";
                   
       $query = $this->getEntityManager()->createQuery($dql);
@@ -24,16 +22,14 @@ class StampItemRepository extends EntityRepository {
       $query->setParameter('id', $id);
       
       try {
-          
-        // $result = $query->getResult(); returns hydrated StampItem
+        /* Other possible query results:
+         *   $query->getResult() would return a hydrated StampItem object, and
+         *   $query->getResult(Query::HYDRATE_SCALAR) would return a one-dimensinal array with keys prefixed with 
+         *  's_' (for stamp) or 'c_' (for country).  
+         */   
         $result = $query->getArrayResult(); 
-        /* 
-         * This 
-             $result = $query->getResult(Query::HYDRATE_SCALAR);
-         * returns a one-dimensinal array with keys prefixed with either 's_' or 'c_':  
-        */   
-           
-      } catch (\Exception $e) {
+        
+       } catch (\Exception $e) {
           
           // log error
           $msg = $e->getMessage();
@@ -73,7 +69,7 @@ class StampItemRepository extends EntityRepository {
       return $stampItem;
     }  
  
-    // DQL is prefered to calling delete() in a loop.
+    // DQL is prefered to calling delete() in a loop when deleting more than one item.
     public function deleteItems(array $ids, $flush=false)
     {
         $ids_string = implode(",", $ids);

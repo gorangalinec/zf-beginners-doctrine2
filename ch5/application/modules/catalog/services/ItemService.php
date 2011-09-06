@@ -82,7 +82,10 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
         return $result;
     }
       
-        
+    /*
+     * Input: StampItem id. Catalot_Form_ItemCreate or a derived class
+     * Returns: values used to populate form.
+     */    
     public function populateFormById($id, Catalog_Form_ItemCreate $form)
     {
         static $removeThese = array('displayuntil' => null, 'creationdate' => null);       
@@ -119,8 +122,8 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
             $result[0][$elementName] = $key;
           }
                                    
-          $values = array_diff_key($result[0], $removeThese);
-          $form->populate($values);
+          $result = array_diff_key($result[0], $removeThese);
+          $form->populate($result);
         }
         
         return $result;
