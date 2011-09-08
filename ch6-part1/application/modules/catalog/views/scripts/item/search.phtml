@@ -13,7 +13,7 @@
  <?= $x ?>.
  <a href="<?= $this->url(array('id' => $this->escape($r['id'])), 'catalog-display'); ?>">
    <?= $this->escape($r['title']); ?>
-   <?= $this->escape($r['year']); ?>
+   <?= '(' . $this->escape($r['year']) . ')'; ?>
  </a>
 <?php if (!empty($r['description'])):  ?>
       

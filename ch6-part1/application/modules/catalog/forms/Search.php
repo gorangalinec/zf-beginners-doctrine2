@@ -1,8 +1,7 @@
 <?php
 use \Square\FormElementOptionsRetrieval;
-/*
- * This is the first Search form introduced in chapter 6.
- */
+
+// This is the first Search form introduced in chapter 6.
 class Catalog_Form_Search extends Catalog_Form_FormBase {
   
   public $message = array(Zend_Validate_Int::INVALID => "\'%value' is not an integer",
@@ -62,7 +61,7 @@ class Catalog_Form_Search extends Catalog_Form_FormBase {
                    
    }
      
-   public function getWhatsNeeded() 
+   public function getWhatsNeeded() // overrides abstract base class method
    {
       $values = $this->getValues();
       
