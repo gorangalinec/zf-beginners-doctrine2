@@ -1,19 +1,52 @@
 ### Setup 
 
-1. The Bisna library was used to integrate Zend Framework with Doctrine 2. It can be downloaded at https://github.com/guilhermeblanco/ZendFramework1-Doctrine2 
-   See http://www.kurttest.com/zfa/bisna.html for documentation on configuring your application.ini to work with Bisna.
+1. Be sure Doctrine is installed (and specified in your **include_path**). On Linux:
 
-2. The country table needs to be populated using ./scripts/insert-countries.php:
+   sudo pear channel-discover pear.doctrine-project.org
 
-    ~/square/scripts$ php -f insert-countries.php
+   sudo pear install -a doctrine/DoctrineORM
+
+2. Be sure [DoctrineExtensions](https://github.com/beberlei/DoctrineExtensions) is in your **include_path**.
+
+3. The [Bisna library](https://github.com/guilhermeblanco/ZendFramework1-Doctrine2 ) is used to integrate Zend Framework with Doctrine 2. See this [documentation](http://www.kurttest.com/zfa/bisna.html) on configuring your **application.ini** to work with Bisna.
+
+4. Create your database, database user and database password and specify them in application/configs/application.ini. The default settings are:
+
+    resources.doctrine.dbal.connections.default.parameters.dbname   = "square"
+
+    resources.doctrine.dbal.connections.default.parameters.host = "localhost"
+
+    resources.doctrine.dbal.connections.default.parameters.port = 3306
+
+    resources.doctrine.dbal.connections.default.parameters.user = "square"
+
+    resources.doctrine.dbal.connections.default.parameters.password = "BVNaQPeuzaAY3YV7"
+
+5. Add the tables 
+
+    Ensure Production Settings Are Ok
+
+    ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:ensure-production-settings
+        
+    Dump the SQL for creating the Db
+    
+    ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:schema-tool:create --dump-sql
+        
+    Actually create the database
+    
+    ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:schema-tool:create
+        
+6. The country table needs to be populated using ./scripts/insert-countries.php:
+
+    ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f insert-countries.php
    
-3. The Country entity is read-only. Country entities cannot be updated, only deleted or new Countries inserted. 
+7. The Country entity is read-only, and thus Country entities cannot be updated, only deleted or new Country entities inserted. 
 
-4. public/captcha must be readable and writeable by the webserver.
+8. public/captcha must be readable and writeable by the webserver.
 
-5. data/cache must be readable writeable by the webserver (see \#4 below).
+9. data/cache must be readable writeable by the webserver (see \#4 below).
 
-6. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
+10. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
    DoctrineExtensions should be installed under one of your include_path directories. 
    Note: Use of "zenddate" will generate erroneous ALTER TABLE messages whenever "php doctrine.php orm:schema-tool:update --dump-sql" is done. 
    These can be ignored.

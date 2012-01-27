@@ -1,0 +1,16 @@
+ch5/public/captcha/*
+ch5/data/*
+ch5/.zfproject.xml
+ch5/nbproject/*
+ch5/library/Square/Entity/Proxy/*
+ch5/docs/todo.txt
+ch5/library/Bisna/*
+ch5/tests/*
+ch6-part1/public/captcha/*
+ch6-part1/data/*
+ch6-part1/.zfproject.xml
+ch6-part1/nbproject/*
+ch6-part1/library/Square/Entity/Proxy/*
+ch6-part1/docs/todo.txt
+ch6-part1/library/Bisna/*
+ch6-part1/tests/*
