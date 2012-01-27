@@ -32,7 +32,7 @@
     
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:schema-tool:create --dump-sql
         
-    Actually create the database
+    Actually create the database tables for your entities
     
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:schema-tool:create
         
@@ -40,13 +40,13 @@
 
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f insert-countries.php
    
-7. The Country entity is read-only, and thus Country entities cannot be updated, only deleted or new Country entities inserted. 
+    Note: The Country entity is read-only, and thus Country entities cannot be updated, only deleted or new Country entities inserted. 
 
-8. public/captcha must be readable and writeable by the webserver.
+7. public/captcha must be readable and writeable by the webserver.
 
-9. data/cache must be readable writeable by the webserver (see \#4 below).
+8. data/cache must be readable writeable by the webserver (see \#4 below).
 
-10. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
+9. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
    DoctrineExtensions should be installed under one of your include_path directories. 
    Note: Use of "zenddate" will generate erroneous ALTER TABLE messages whenever "php doctrine.php orm:schema-tool:update --dump-sql" is done. 
    These can be ignored.
