@@ -34,12 +34,12 @@ class Country extends EntityBase {
     }
     
     // disallow setting
-    protected function setCode($code)
+    public function setCode($code)
     {
         $this->code = $code;
     }
     
-    protected function setName($name) 
+    public function setName($name) 
     {
         $this->name = $name;
     }

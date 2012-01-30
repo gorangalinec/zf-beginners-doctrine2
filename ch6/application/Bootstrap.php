@@ -51,12 +51,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         // Make sure that _initCaching() has been done.
         $this->bootstrap('caching');
         
-        // We will programmatically build the routes in the array $myroutes, which we then cache.
+        // We will programmatically build the routes in the array $myroutes. Then we will cache it.
+        // So, first, check if we have already cached the routes array.
         $cache = Zend_Registry::get('Zend_Cache');
                 
         $myroutes = $cache->load('myroutes');
         
-        if ($myroutes === false) { // Does cache exist already?
+        if ($myroutes === false) {
 
             $myroutes = array();
 
@@ -196,6 +197,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                           'module' => 'default'
                          )
                       ); 
+            
             $myroutes['login-success'] = $route;
 
             $route = new Zend_Controller_Router_Route(
@@ -206,10 +208,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                           'module' => 'default'
                          )
                       ); 
+            
+            $route = new Zend_Controller_Router_Route(
+                   '/admin/catalog/fulltext-index/create',
+                   array(
+                       'action' => 'create.fulltext.index',
+                       'controller' => 'admin.item',
+                       'module' => 'catalog'
+                       )
+                   );
+            
+            $myroutes['admin-fulltext-index-create'] = $route;
+             
 
             $myroutes['logout'] = $route;
-            
-             
             // By default, the second parameter to save -- if not spcified -- will be 'myroutes', the parameter
             // which was passed on the most recent load().
             $cache->save($myroutes);

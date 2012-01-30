@@ -1,0 +1,14 @@
+1. When an item is display for update, if the display status is visible, 1, the display until date still does not 
+show up, until the visibility is turned off then back on. Maybe I can simulate this somehow--like sending a message of 'update
+the date info now'?
+
+Thougts: The displayuntil date does not show because the style is "display: none" by default even if the displaystatus is '1'.
+When the displaystatus is toggled to 'hidden' (0) and then back to 'visible' (1), the style changes to "display: block" and
+the month/day/year selects appear.
+
+Should the first paramter to this javascript routine be changes?
+  handleInputDisplayOnSelect('DisplayStatus', 'divDisplayUntil', new Array('1'));
+Compare with Vikram's code. Compare with the css file for the form, too.
+
+2. Do I need to remove/unset properties that are not part of the actual update (or create) form before it is populated?
+

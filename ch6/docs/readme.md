@@ -63,18 +63,18 @@
    the queue and sends the emails.
    Note: Change the define('APPLICATION_PATH', ...) at the top of queue-processor.php, to correspond to your particular application path.
 
-3. The forms used exclusively in the default module begin with the prefix of Applicaton_ (the "appnamespace" prefix )rather than Square_,
-   which the book uses, and they reside in application/forms not in library/Square/Form. Likewise, forms classes used exclusively in the
-   catalog module begin with Catalog_Form prefix, and they reside in application/modules/catalog/forms. 
+3. The forms used exclusively in the default module begin with of Applicaton_ (the "appnamespace" prefix )rather than Square_, which the book uses, and
+   they reside in application/forms not in library/Square/Form. Likewise, forms classes used exclusively in the catalog module begin with Catalog_Form prefix, 
+   and they reside in application/modules/catalog/forms. 
 
-4. Unlike the book, routes were not configured in application.ini, but instead are programmatically created in application/Bootstrap.php,
-   where they are cached. Make sure that the subdirectories beneath the data directory are writeable by the webserver.
+5. Unlike the book, routes were not configured in application.ini, but instead are programmatically created in application/Bootstrap.php,
+   where they are cached. 
 
-5. Due to #3, caching support was added to cache the routes array. ./data/cache should be both read- and writeable by the webserver.  
+6. Due to #3, caching support was added to cache the routes array. ./data/cache should be both read- and writeable by the webserver.  
    Important: If you add new routes to Bootstrap.php, you must erase the cache files under ./data/cache; otherwise, your new routes won't
    be recognized until the cache expires. 
 
-6. A service layer, in application/modules/catalog/services, is used by the the catalog controllers.
+7. A service layer, in application/modules/catalog/services, is used by the the catalog controllers.
 
 
 kurt krueckeberg (kurtk at pobox dot com)
