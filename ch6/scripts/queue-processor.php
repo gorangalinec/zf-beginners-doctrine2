@@ -1,15 +1,15 @@
 <?php
-
-// See cron howto at https://help.ubuntu.com/community/CronHowto
+// Called by queue-process, which is intended as a cron job to process the email queue.
+// For a cron howto see: https://help.ubuntu.com/community/CronHowto
 define('APPLICATION_PATH', '/home/kurt/public_html/zf-beginners-doctrine2/ch5/application');
 
 set_include_path(implode(PATH_SEPARATOR, array(
       APPLICATION_PATH . '/../library',
       get_include_path(),
     )));
-/*
- * Provides autoloading for Zend Framework's pseudo namespaces (that use the underscored) and PHP5.3-compliant namespaces.
- */
+
+// Provide autoloading for both Zend Framework's pseudo namespaces (that use the underscored) and PHP5.3-compliant namespaces.
+ 
 spl_autoload_register(function ($className) { 
     
       // We assume classes with underscores are ZF's pseudo namespaced.

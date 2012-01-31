@@ -1,7 +1,7 @@
 <?php
 /*
- *  This file should be include in any batch processing scripts. It is used by ./scripts/insert-countries.php
- *  It instantiates Bisna\Doctrine\Container as $container.
+ *  This file should be included in any batch processing scripts. It is used by ./scripts/insert-countries.php
+ *  and ./scripts/createAdminUser.php. It instantiates Bisna\Doctrine\Container as the variable $container.
  */
 
 // Include this file when doing batch processing, then call: $container->getEntityManager()
