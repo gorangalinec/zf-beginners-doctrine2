@@ -41,7 +41,7 @@ class StampItemRepository extends EntityRepository {
     
     public function getDisplayableItemsIfNotExpired()
     {
-      $dql = "SELECT s FROM Square\Entity\StampItem s WHERE s.displayuntil >= CURRENT_DATE()";
+      $dql = "SELECT s,c FROM Square\Entity\StampItem s JOIN s.country c  WHERE s.displayuntil >= CURRENT_DATE()";
       
       $query = $this->getEntityManager()->createQuery($dql);
       

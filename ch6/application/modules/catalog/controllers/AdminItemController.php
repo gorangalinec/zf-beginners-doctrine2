@@ -198,32 +198,19 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       // create new document in index
       $doc = new Zend_Search_Lucene_Document();
 
-      // index and store fields
-      // TODO: I need to change  $r['blah']['dah' to the properties \Square\Entity\StampItem, which is what
-      // getArrayResult() returns.
-      /*
-      $doc->addField(Zend_Search_Lucene_Field::Text('Title', $r['Title']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Country', $r['Square_Model_Country']['CountryName']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Grade', $r['Square_Model_Grade']['GradeName']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Year', $r['Year']));      
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('Description', $r['Description']));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('Denomination', $r['Denomination']));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('Type', $r['Square_Model_Type']['TypeName']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMin', $r['SalePriceMin']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMax', $r['SalePriceMax']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('RecordID', $r['RecordID']));
-      */
+      $doc->addField(Zend_Search_Lucene_Field::Text('Title', $r['title']));
+      $doc->addField(Zend_Search_Lucene_Field::Text('Country', $r['country']['name']));
+      $doc->addField(Zend_Search_Lucene_Field::Text('Grade', $r['grade']));
+
+      // $r['creatondate'] is a Zend_Date object.
+      $doc->addField(Zend_Search_Lucene_Field::Text('Year', $r['creationdate']->get('Y')));  
       
-      $doc->addField(Zend_Search_Lucene_Field::Text('Title', $r['Title']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Country', $r['Square_Model_Country']['CountryName']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Grade', $r['Square_Model_Grade']['GradeName']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Year', $r['Year']));      
       $doc->addField(Zend_Search_Lucene_Field::UnStored('Description', $r['Description']));
       $doc->addField(Zend_Search_Lucene_Field::UnStored('Denomination', $r['Denomination']));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('Type', $r['Square_Model_Type']['TypeName']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMin', $r['SalePriceMin']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMax', $r['SalePriceMax']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('RecordID', $r['RecordID']));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('Type', $r['type']));
+      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMin', $r['salepricemin']));
+      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMax', $r['salepricemax']));
+      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('RecordID', $r['id']));
       
       // save result to index
       $index->addDocument($doc);      

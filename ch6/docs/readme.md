@@ -22,7 +22,7 @@
 
     resources.doctrine.dbal.connections.default.parameters.password = "BVNaQPeuzaAY3YV7"
 
-5. Add the tables 
+5. Add the tables for the \Square\Entities
 
     Ensure Production Settings Are Ok
 
@@ -36,9 +36,11 @@
     
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:schema-tool:create
         
-6. The country table needs to be populated using ./scripts/insert-countries.php:
+6. The country table needs to be populated using ./scripts/insert-countries.php and an administrator. The default user/password is 
+   'user'/'password':
 
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f insert-countries.php
+    ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f createAdminUser.php
    
     Note: The Country entity is read-only, and thus Country entities cannot be updated, only deleted or new Country entities inserted. 
 

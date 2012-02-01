@@ -1,5 +1,5 @@
 <?php
-// Script to add an user, i.e., an administrator. 
+// Script to add an administrator with userid of 'yuser' and password of 'password'. 
 use Square\Entity\User;
 
 // 'batch-config.php' parses application.ini and instantiates Bisna\Doctrine\Container as $container.
@@ -10,7 +10,7 @@ $em = $container->getEntityManager();
 try {
     
     $user = new User();
-    $user->setUsername('kurt');
+    $user->setUsername('user');
     $user->setPassword('password');
     
     $em->persist($user);
