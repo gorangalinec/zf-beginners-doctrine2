@@ -22,7 +22,7 @@
 
     resources.doctrine.dbal.connections.default.parameters.password = "BVNaQPeuzaAY3YV7"
 
-5. Add the tables 
+5. Create the database schema, the tables that correspond to our \Square\Entities classes.
 
     Ensure Production Settings Are Ok
 
@@ -36,15 +36,17 @@
     
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:schema-tool:create
         
-6. The country table needs to be populated using ./scripts/insert-countries.php:
+6. The country table needs to be pre-populated using ./scripts/insert-countries.php and an administrative user needs to be created.
+   The default user/password created is 'user'/'password':
 
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f insert-countries.php
+    ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f createAdminUser.php
    
     Note: The Country entity is read-only, and thus Country entities cannot be updated, only deleted or new Country entities inserted. 
 
 7. public/captcha must be readable and writeable by the webserver.
 
-8. data/cache must be readable writeable by the webserver (see \#4 below).
+8. The subdirectories under data must be readable writeable by the webserver (see \#4 below).
 
 9. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
    DoctrineExtensions should be installed under one of your include_path directories. 
@@ -63,18 +65,18 @@
    the queue and sends the emails.
    Note: Change the define('APPLICATION_PATH', ...) at the top of queue-processor.php, to correspond to your particular application path.
 
-3. The forms used exclusively in the default module begin with the prefix of Applicaton_ (the "appnamespace" prefix )rather than Square_,
-   which the book uses, and they reside in application/forms not in library/Square/Form. Likewise, forms classes used exclusively in the
-   catalog module begin with Catalog_Form prefix, and they reside in application/modules/catalog/forms. 
+3. The forms used exclusively in the default module begin with of Applicaton_ (the "appnamespace" prefix )rather than Square_, which the book uses, and
+   they reside in application/forms not in library/Square/Form. Likewise, forms classes used exclusively in the catalog module begin with Catalog_Form prefix, 
+   and they reside in application/modules/catalog/forms. 
 
-4. Unlike the book, routes were not configured in application.ini, but instead are programmatically created in application/Bootstrap.php,
-   where they are cached. Make sure that the subdirectories beneath the data directory are writeable by the webserver.
+5. Unlike the book, routes were not configured in application.ini, but instead are programmatically created in application/Bootstrap.php,
+   where they are cached. 
 
-5. Due to #3, caching support was added to cache the routes array. ./data/cache should be both read- and writeable by the webserver.  
+6. Due to #3, caching support was added to cache the routes array. ./data/cache should be both read- and writeable by the webserver.  
    Important: If you add new routes to Bootstrap.php, you must erase the cache files under ./data/cache; otherwise, your new routes won't
    be recognized until the cache expires. 
 
-6. A service layer, in application/modules/catalog/services, is used by the the catalog controllers.
+7. A service layer, in application/modules/catalog/services, is used by the the catalog controllers.
 
 
 kurt krueckeberg (kurtk at pobox dot com)

@@ -22,7 +22,7 @@
 
     resources.doctrine.dbal.connections.default.parameters.password = "BVNaQPeuzaAY3YV7"
 
-5. Add the tables for the \Square\Entities
+5. Create the database schema, the tables that correspond to our \Square\Entities classes.
 
     Ensure Production Settings Are Ok
 
@@ -36,8 +36,8 @@
     
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f doctrine.php orm:schema-tool:create
         
-6. The country table needs to be populated using ./scripts/insert-countries.php and an administrator. The default user/password is 
-   'user'/'password':
+6. The country table needs to be pre-populated using ./scripts/insert-countries.php and an administrative user needs to be created.
+   The default user/password created is 'user'/'password':
 
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f insert-countries.php
     ~/extracted-to-subdir/zf-beginners-doctrine2/ch5/scripts$ php -f createAdminUser.php
@@ -46,7 +46,7 @@
 
 7. public/captcha must be readable and writeable by the webserver.
 
-8. data/cache must be readable writeable by the webserver (see \#4 below).
+8. The subdirectories under data must be readable writeable by the webserver (see \#4 below).
 
 9. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
    DoctrineExtensions should be installed under one of your include_path directories. 
