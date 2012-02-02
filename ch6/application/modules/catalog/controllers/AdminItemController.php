@@ -198,19 +198,19 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       // create new document in index
       $doc = new Zend_Search_Lucene_Document();
 
-      $doc->addField(Zend_Search_Lucene_Field::Text('Title', $r['title']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Country', $r['country']['name']));
-      $doc->addField(Zend_Search_Lucene_Field::Text('Grade', $r['grade']));
+      $doc->addField(Zend_Search_Lucene_Field::Text('title', $r['title']));
+      $doc->addField(Zend_Search_Lucene_Field::Text('country', $r['country']['name']));
+      $doc->addField(Zend_Search_Lucene_Field::Text('grade', $r['grade']));
 
       // $r['creatondate'] is a Zend_Date object.
-      $doc->addField(Zend_Search_Lucene_Field::Text('Year', $r['creationdate']->get('Y')));  
+      $doc->addField(Zend_Search_Lucene_Field::Text('year', $r['creationdate']->get('Y')));  
       
       $doc->addField(Zend_Search_Lucene_Field::UnStored('Description', $r['Description']));
       $doc->addField(Zend_Search_Lucene_Field::UnStored('Denomination', $r['Denomination']));
       $doc->addField(Zend_Search_Lucene_Field::UnStored('Type', $r['type']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMin', $r['salepricemin']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('SalePriceMax', $r['salepricemax']));
-      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('RecordID', $r['id']));
+      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('salepricemin', $r['salepricemin']));
+      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('salepricemax', $r['salepricemax']));
+      $doc->addField(Zend_Search_Lucene_Field::UnIndexed('id', $r['id']));
       
       // save result to index
       $index->addDocument($doc);      
