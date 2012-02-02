@@ -1,5 +1,5 @@
 <?php
-class Catalog_Form__Search extends Zend_Form {
+class Catalog_Form_Search extends Zend_Form {
     
   public function init()
   {

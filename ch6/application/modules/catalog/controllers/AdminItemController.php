@@ -205,9 +205,9 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       // $r['creatondate'] is a Zend_Date object.
       $doc->addField(Zend_Search_Lucene_Field::Text('year', $r['creationdate']->get('Y')));  
       
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('Description', $r['Description']));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('Denomination', $r['Denomination']));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('Type', $r['type']));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('description', $r['description']));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('denomination', $r['denomination']));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('type', $r['type']));
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed('salepricemin', $r['salepricemin']));
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed('salepricemax', $r['salepricemax']));
       $doc->addField(Zend_Search_Lucene_Field::UnIndexed('id', $r['id']));

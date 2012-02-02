@@ -51,33 +51,34 @@ class Catalog_ItemController extends Zend_Controller_Action {
     } // endif
   }
     
-  // action to perform full-text search
+   // action to perform full-text search
   public function searchAction()
   {
     // generate input form
     $form = new Catalog_Form_Search();
-    
+
     $this->view->form = $form;
 
     // get items matching search criteria    
     if ($form->isValid($this->getRequest()->getParams())) {
-        
+
       $input = $form->getValues();    
-      
+
       if (!empty($input['q'])) {
-          
+
         $config = $this->getInvokeArg('bootstrap')->getOption('indexes');
-        
+
         $index = Zend_Search_Lucene::open($config['indexPath']);      
         
-        $parseResult = Zend_Search_Lucene_Search_QueryParser::parse($input['q']);
+        $parsedQuery = Zend_Search_Lucene_Search_QueryParser::parse($input['q']);
         
-        $results = $index->find($parseResult);   
-        
+        $results = $index->find($parsedQuery);   
+
         $this->view->results = $results;
       }
     }
   }
+  
 
   public function createAction()
   {
