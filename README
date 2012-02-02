@@ -1,2 +1,2 @@
 This is a conversion of the book "Zend Framework: A Beginner's Guide" from Doctrine 1 to Doctrine 2. Currently, only chapter 5 and the
-first part of chapter 6 have been converted to Doctrine 2. See the ./ch5/docs/readme.md for documentation.
+first part of chapter 6 have been converted to Doctrine 2. See the ./ch6/docs/readme.md for complete documentation.
