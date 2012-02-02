@@ -19,3 +19,5 @@ ch6/tests/*
 ch6/data/cache/*
 ch6/data/indexes/*
 ch6/nbproject/*
+ch6/scripts/queue-proc-hidden.php
+ch6/application/configs/application-hidden.ini

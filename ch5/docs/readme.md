@@ -44,14 +44,16 @@
    
     Note: The Country entity is read-only, and thus Country entities cannot be updated, only deleted or new Country entities inserted. 
 
-7. public/captcha must be readable and writeable by the webserver.
+7. Contact email handled using zend queue and a cron job. See \#8 under "Differences with book".
 
-8. The subdirectories under data must be readable writeable by the webserver (see \#4 below).
+8. public/captcha must be readable and writeable by the webserver.
 
-9. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
-   DoctrineExtensions should be installed under one of your include_path directories. 
-   Note: Use of "zenddate" will generate erroneous ALTER TABLE messages whenever "php doctrine.php orm:schema-tool:update --dump-sql" is done. 
-   These can be ignored.
+9. The subdirectories under data must be readable writeable by the webserver (see \#4 below).
+
+10. The "zenddate" type from DoctrineExtensions is used in the StampItem entity. DoctrineExtensions is available at https://github.com/beberlei/DoctrineExtensions.
+    DoctrineExtensions should be installed under one of your include_path directories. 
+    Note: Use of "zenddate" will generate erroneous ALTER TABLE messages whenever "php doctrine.php orm:schema-tool:update --dump-sql" is done. 
+    These can be ignored.
 
 ### Differences with book.
 
@@ -78,5 +80,8 @@
 
 7. A service layer, in application/modules/catalog/services, is used by the the catalog controllers.
 
+8. Email sent from the contact form is not immediately sent. Instead it is saved to a Zend_Queue database and processed using
+   a cron job. The sql for creating the Zend queue database is in ./scripts/zendqueue.sql. The cron job is ./scripts/queue-process.
+   Once you create the database, you will need to change the queue.xxx and email.xxx sections of the application.ini file.
 
 kurt krueckeberg (kurtk at pobox dot com)
