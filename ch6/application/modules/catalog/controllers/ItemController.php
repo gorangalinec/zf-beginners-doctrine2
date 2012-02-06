@@ -3,21 +3,21 @@ use Square\Entity\StampItem;
 
 class Catalog_ItemController extends Zend_Controller_Action {
 /*    
- * From Zend Framework documentation:
+ * Paraphrased from Zend Framework documentation:
  * 
  * To enable a controller to respond to Ajax or XML requests, you must use the addActionContext in the init() method of your controller.
- * The helper will, if a request of the additional type occurs, then:
-
-    1. Disable layouts, if enabled.
-
-    2. Set an alternate view suffix, effectively requiring a separate view script for the context. For xml requests, the 
- *     script file sufix ".xml.phtml".
-
-    3. Send appropriate response headers for the context desired.
-
-    4. Optionally, call specified callbacks to setup the context and/or perform post-processing.
- 
-  */
+ * The helper will, if a request of the additional type occurs:
+ *
+ *   1. Disable layouts, if enabled.
+ *
+ *   2. Set an alternate view suffix, effectively requiring a separate view script for the context. For example, for xml requests, the 
+ *      required script file sufix is ".xml.phtml".
+ *
+ *   3. Send appropriate response headers for the context desired.
+ *
+ *   4. Optionally, call specified callbacks to setup the context and/or perform post-processing.
+ *
+ */
   public function init()
   {
     $this->view->doctype('XHTML1_STRICT');

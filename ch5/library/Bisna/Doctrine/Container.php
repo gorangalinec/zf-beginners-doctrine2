@@ -294,6 +294,19 @@ class Container
 
         return $this->connections[$connName];
     }
+    
+    /**
+     * Retrieves a list of names for all Connections configured and/or loaded
+     * 
+     * @return array
+     */
+    public function getConnectionNames()
+    {
+       $configuredConnections = array_keys($this->configuration['dbal']);
+       $loadedConnections = array_keys($this->connections);
+        
+       return array_merge($configuredConnections, $loadedConnections);
+    }
 
     /**
      * Retrieve Cache Instance based on its name. If no argument is provided,
@@ -326,6 +339,19 @@ class Container
     }
 
     /**
+     * Retrieves a list of names for all cache instances configured
+     * 
+     * @return array
+     */
+    public function getCacheInstanceNames()
+    {
+       $configuredInstances = array_keys($this->configuration['cache']);
+       $loadedInstances = array_keys($this->cacheInstances);
+        
+       return array_merge($configuredInstances, $loadedInstances);
+    }
+
+    /**
      * Retrieve ORM EntityManager based on its name. If no argument provided,
      * it will attempt to get the default EntityManager.
      * If ORM EntityManager name could not be found, NameNotFoundException is thrown.
@@ -355,6 +381,19 @@ class Container
         return $this->entityManagers[$emName];
     }
 
+    /**
+     * Retrieves a list of names for all Entity Managers configured and/or loaded
+     * 
+     * @return array
+     */
+    public function getEntityManagerNames()
+    {
+       $configuredEMs = array_keys($this->configuration['orm']);
+       $loadedEMs = array_keys($this->entityManagers);
+        
+       return array_merge($configuredEMs, $loadedEMs);
+    }
+    
     /**
      * Initialize the DBAL Connection.
      *
@@ -413,7 +452,9 @@ class Container
 
         // Event Subscribers configuration
         foreach ($config['eventSubscribers'] as $subscriber) {
-            $eventManager->addEventSubscriber(new $subscriber());
+       	    if ($subscriber) {
+       	        $eventManager->addEventSubscriber(new $subscriber());	
+       	    }
         }
 
         return $eventManager;
@@ -571,7 +612,9 @@ class Container
 
         
         // Setup AnnotationRegistry
-        $this->startAnnotationRegistry($config['annotationRegistry']);
+        if (isset($config['annotationRegistry'])) {
+            $this->startAnnotationRegistry($config['annotationRegistry']);
+        }
         
         foreach ($config['drivers'] as $driver) {
             $driver = array_replace_recursive($defaultMetadataDriver, $driver);
@@ -585,13 +628,18 @@ class Container
             ) {
                 $annotationReaderClass = $driver['annotationReaderClass'];
                 $annotationReader = new $annotationReaderClass();
-                $annotationReader->setDefaultAnnotationNamespace('Doctrine\ORM\Mapping\\');
-
-                foreach ($driver['annotationReaderNamespaces'] as $alias => $namespace) {
-                    $annotationReader->setAnnotationNamespaceAlias($namespace, $alias);
+                
+                if (method_exists($annotationReader, 'setDefaultAnnotationNamespace')) {
+                    $annotationReader->setDefaultAnnotationNamespace('Doctrine\ORM\Mapping\\');
                 }
 
-                //$annotationReader->setIgnoreNotImportedAnnotations(false);
+                if (method_exists($annotationReader, 'setAnnotationNamespaceAlias')) {
+                    $driver['annotationReaderNamespaces']['ORM'] = 'Doctrine\ORM\Mapping\\';
+                    
+                    foreach ($driver['annotationReaderNamespaces'] as $alias => $namespace) {
+                        $annotationReader->setAnnotationNamespaceAlias($namespace, $alias);
+                    }
+                }
 				
                 $indexedReader = new \Doctrine\Common\Annotations\CachedReader(
                     new \Doctrine\Common\Annotations\IndexedReader($annotationReader), 

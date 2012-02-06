@@ -113,15 +113,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
               
             // TODO: Change this to work with Doctrine 2 paginator.
             $route = new Zend_Controller_Router_Route(
-                   '/admin/catalog/item/index/:page/:sort/:dir',
+                   '/admin/catalog/item/index/',
                    array(
                        'action' => 'index',
                        'controller' => 'admin.item',
-                       'module' => 'catalog',
-                       'page' => 1,
-                       'sort' => 'id',
-                       'dir'  => 'ASC'
-                     )
+                       'module' => 'catalog'
+                      )
                    );
 
             $myroutes['admin-catalog-index'] = $route;
