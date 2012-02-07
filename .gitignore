@@ -21,3 +21,17 @@ ch6/data/indexes/*
 ch6/nbproject/*
 ch6/scripts/queue-proc-hidden.php
 ch6/application/configs/application-hidden.ini
+ch7/.zfproject.xml
+ch7/public/captcha/*
+ch7/data/*
+ch7/.zfproject.xml
+ch7/nbproject/*
+ch7/library/Square/Entity/Proxy/*
+ch7/docs/todo.txt
+ch7/library/Bisna/*
+ch7/tests/*
+ch7/data/cache/*
+ch7/data/indexes/*
+ch7/nbproject/*
+ch7/scripts/queue-proc-hidden.php
+ch7/application/configs/application-hidden.ini

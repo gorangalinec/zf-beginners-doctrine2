@@ -1,0 +1,54 @@
+<h2>Search</h2>
+<?php echo $this->form; ?>
+
+<h2>Search Results</h2>
+
+<p><?php 
+   /*
+    *  $this->results contains Zend_Search_Lucene_Search_QueryHit objects, whichare ranked by score. Each of these objects
+    *  exposes the document number and the document score as object properties. Other stored fields of the document can
+    *  also be access as object properties. Summary of Zend_Search_Lucene_Search_QueryHit:
+    * 
+    *   1. Zend_Search_Lucene_Document getDocument ()
+    *      returns the document object for this hit
+    * 
+    *   2. Zend_Search_Lucene_Interface getIndex ()
+    *      returns the index object for this hit.
+    * 
+    *   3. __get (line 77)
+    *      Convenience function for getting fields from the document associated with this hit.
+    *   Question: does this mean that I should use $r to return StampItems or to properties of StampItem.
+    */
+  echo count($this->results); ?> result(s) found.</p>
+
+<?php if (count($this->results)): ?>
+
+  <?php   $x=1; ?>
+
+  <?php foreach ($this->results as $r): ?>
+  <div>
+      
+  <?php echo $x; ?>. 
+    <a href="<?php echo $this->url(array('id' => $this->escape($r->id)), 'catalog-display'); ?>">
+      <?php echo $this->escape($r->title); ?>  
+      (<?php echo $this->escape($r->year); ?>)       
+    </a> 
+    <br/>
+    Score: <?php printf('%1.4f', $this->escape($r->score)); ?>           
+    <br/>
+    <strong>
+    Grade: <?php echo $this->escape($r->grade); ?> |
+    Country: <?php echo $this->escape($r->country); ?> |
+    Sale price: $<?php echo sprintf('%0.2f', $this->escape($r->salepricemin)); ?> to $<?php echo sprintf('%0.2f', $this->escape($r->salepricemax)); ?>
+    </strong>
+    
+  </div>
+  <br/>
+    <?php $x++; ?>
+  <?php endforeach; ?>
+  
+<?php endif; ?>
+
+<div>
+  <a href="<?php echo $this->url(array('module' => 'catalog', 'controller' => 'item', 'action' => 'create'), null, true); ?>">Add Item</a>
+</div>

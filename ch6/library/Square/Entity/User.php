@@ -1,31 +1,32 @@
 <?php
 namespace Square\Entity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Entity
- * @Table(name="user")
+ * @ORM\Entity
+ * @ORM\Table(name="user")
  */
 class User extends EntityBase {
 
   /**
-   *  @Id
-   *  @Column(type="integer")
-   *  @GeneratedValue
+   *  @ORM\Id
+   *  @ORM\Column(type="integer")
+   *  @ORM\GeneratedValue
    */
     protected $id;  
  
   /**
-   *  @Column(type="string", length="255", unique="true") 
+   *  @ORM\Column(type="string", length=255, unique=true) 
    */
     protected $username;
     
   /**
-   *  @Column(type="string", length="64") 
+   *  @ORM\Column(type="string", length=64) 
    */
     protected $password_encrypted;
     
    /** This will be date('U'), i.e., the number of seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
-   *  @Column(type="bigint") 
+   *  @ORM\Column(type="bigint") 
    */
     protected $salt;
 

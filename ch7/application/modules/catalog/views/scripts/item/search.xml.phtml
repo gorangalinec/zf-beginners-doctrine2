@@ -1,0 +1,50 @@
+<?php
+// create XML document
+$dom = new DOMDocument('1.0', 'utf-8');
+
+// create root element
+/* original code commented out:
+ * $root = $dom->createElementNS('http://square.localhost', 'square:document');    
+ */
+$root = $dom->createElementNS('http://ch6', 'square:document');    
+
+$dom->appendChild($root);
+
+// convert to SimpleXML 
+$xml = simplexml_import_dom($dom);
+
+// add summary element
+$xml->addChild('matches', count($this->results));
+
+$xml->addChild('searchTime', time());
+
+// add resultset elements
+$results = $xml->addChild('results');
+
+foreach ($this->results as $r) {
+    
+  $result = $results->addChild('result');    
+  
+  $result->addChild('score', $this->escape($r->score));
+  
+  $result->addChild('id', $this->escape($r->id));
+  
+  $result->addChild('title', $this->escape($r->title));
+  
+  $result->addChild('year', $this->escape($r->year));
+  
+  $result->addChild('grade', $this->escape($r->grade));
+  
+  $result->addChild('country', $this->escape($r->country));
+  
+  $price = $result->addChild('price');
+  
+  $price->addChild('min', $this->escape($r->salepricemin));
+  
+  $price->addChild('max', $this->escape($r->salepricemax));
+  
+}
+
+// return output
+echo $xml->asXML();  
+?>

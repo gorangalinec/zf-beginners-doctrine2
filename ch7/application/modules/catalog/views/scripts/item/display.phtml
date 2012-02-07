@@ -1,0 +1,68 @@
+<h2>View Item</h2>
+<h3>
+  FOR SALE: 
+  <?php echo $this->escape($this->stamp_item->title); ?> - 
+  <?php echo $this->escape($this->stamp_item->year); ?> - 
+  <?php echo $this->escape($this->stamp_item->grade); ?>
+</h3>
+
+<div id="container">
+  <div id="record">  
+    <table>
+      <tr>
+        <td class="key">Title:</td>
+        <td class="value">
+          <?php echo $this->escape($this->stamp_item->title); ?>
+        </td>
+      </tr>
+      <tr>
+        <td class="key">Type:</td>
+        <td class="value">
+          <?php echo $this->escape(
+            $this->stamp_item->type); ?>
+        </td>
+      </tr>
+      <tr>
+        <td class="key">Year:</td>
+        <td class="value">
+          <?php echo $this->escape($this->stamp_item->year); ?>
+        </td>
+      </tr>
+      <tr>
+        <td class="key">Country:</td>
+        <td class="value">
+          <?php echo $this->escape(
+            $this->stamp_item->country->getName()); ?>
+        </td>
+      </tr>
+      <tr>
+        <td class="key">Denomination:</td>
+        <td class="value">
+          <?php echo $this->escape(
+            sprintf('%01.2f', $this->stamp_item->denomination));  ?>
+        </td>
+      </tr>
+      <tr>
+        <td class="key">Grade:</td>
+        <td class="value">
+          <?php echo $this->escape(
+            $this->stamp_item->grade); ?>
+        </td>
+      </tr>
+      <tr>
+        <td class="key">Sale price:</td>
+        <td class="value">
+          $<?php echo $this->escape($this->stamp_item->salepricemin); ?> - 
+          $<?php echo $this->escape($this->stamp_item->salepricemax); ?>
+        </td>
+      </tr>
+      <tr>
+        <td class="key">Description:</td>
+        <td class="value">
+          <?php echo $this->escape($this->stamp_item->description); ?>
+        </td>
+      </tr>
+    </table>
+  </div>  
+</div>
+

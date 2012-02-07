@@ -1,6 +1,7 @@
 ### Setup 
 
-1. Be sure Doctrine is installed (and specified in your **include_path**). On Linux:
+1. Be sure Doctrine is installed (and specified in your **include_path**). This code works with Doctrine v 2.2 and the latest
+   version of the Bisna as of 2/8/2012. On Linux:
 
    sudo pear channel-discover pear.doctrine-project.org
 

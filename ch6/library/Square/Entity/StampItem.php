@@ -1,5 +1,6 @@
 <?php
 namespace Square\Entity;
+use Doctrine\ORM\Mapping as ORM;
 
 /* 
  * Important Notes:
@@ -18,8 +19,8 @@ http://stackoverflow.com/questions/5048670/doctrine-2-ormgenerate-repositories-n
 
 
 /**
- * @Entity(repositoryClass="Square\Entity\Repository\StampItemRepository")
- * @Table(name="stamp")
+ * @ORM\Entity(repositoryClass="Square\Entity\Repository\StampItemRepository")
+ * @ORM\Table(name="stamp")
  */
 class StampItem extends EntityBase {
 
@@ -53,69 +54,69 @@ class StampItem extends EntityBase {
  }
   
   /**
-   *  @Id
-   *  @Column(type="integer")
-   *  @GeneratedValue
+   *  @ORM\Id
+   *  @ORM\Column(type="integer")
+   *  @ORM\GeneratedValue
    */
     protected $id;  
  
    /**
-    * @Column(type="string", length="25")
+    * @ORM\Column(type="string", length=25)
     */
     protected $grade;
     
    /**
-    * @Column(type="string", length="25")
+    * @ORM\Column(type="string", length=25)
     */
     protected $type;
 
     // Q: Date of issuance?
     /**
-    * @Column(type="zenddate")
+    * @ORM\Column(type="zenddate")
     */
     protected $creationdate; //<-- This the creation date of this entity.
 
     // Question:  Change to fname and lastname? 
     /**
-    * @Column(type="string", name="name", length="255")
+    * @ORM\Column(type="string", name="name", length=255)
     */
     protected $sellername;
 
     // TODO: Make this unique. 
     /**
-    * @Column(type="string", name="email", length="255",  unique=true)
+    * @ORM\Column(type="string", name="email", length=255,  unique=true)
     */
     protected $selleremail;
  
     /**
-    * @Column(type="string", name="phone", length="255")
+    * @ORM\Column(type="string", name="phone", length=255)
     */
     protected $sellerphone;
  
     /**
-    * @Column(type="string", name="address", length="255")
+    * @ORM\Column(type="string", name="address", length=255)
     */
     protected $selleraddress;
     
     /**
-    * @Column(type="smallint")
+    * @ORM\Column(type="smallint")
     */
     protected $year;
 
     /*
-    * @Column(type="string", name="city", length="75")
+    * @ORM\Column(type="string", name="city", length=75)
     protected $city;
     */
 
    // Question:  Is this a custom type or a separate table?
     /*
     *
-    * @Column(type="string", name="state", length="2")
+    * @ORM\Column(type="string", name="state", length=2)
     protected $state;
     */
 
 	/*
-     * @Column(type="string", name="zip", length="9")
+     * @ORM\Column(type="string", name="zip", length=9)
     protected $zip;
 	 */ 
 
@@ -123,43 +124,43 @@ class StampItem extends EntityBase {
    // A stamp is "issued in" one country. A country "issues" many stamps. 
    // We do an eagar fetch, so that $country is fully-populated after a findXX() operations.
    /**
-    *  @ManyToOne(targetEntity="Country", fetch="EAGER")
+    *  @ORM\ManyToOne(targetEntity="Country", fetch="EAGER")
     */
     protected $country;
 
 	/**
-     * @Column(type="float")
+     * @ORM\Column(type="float")
 	 */ 
     protected $denomination;
 
 	/**
-     * @Column(type="string", name="title", length="255")
+     * @ORM\Column(type="string", name="title", length=255)
 	 */ 
     protected $title;
 
     /**
-    * @Column(type="float", name="pricemin")
+    * @ORM\Column(type="float", name="pricemin")
     */
     protected $salepricemin;
 
    /**
-    * @Column(type="float", name="pricemax")
+    * @ORM\Column(type="float", name="pricemax")
     */
     protected $salepricemax;
 
    /** 
-    * @Column(type="text", name="description")
+    * @ORM\Column(type="text", name="description")
     */
    protected $description;
 
    // Indicates whether the item is viewable.
    /** 
-    * @Column(type="boolean", name="displaystatus")
+    * @ORM\Column(type="boolean", name="displaystatus")
     */
    protected $displaystatus;
 
    /**
-    * @Column(type="zenddate", name="displayuntil")
+    * @ORM\Column(type="zenddate", name="displayuntil")
     */
    protected $displayuntil;
    

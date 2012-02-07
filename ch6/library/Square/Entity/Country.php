@@ -1,6 +1,7 @@
 <?php
 namespace Square\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /* 
     The official list of country names and their associated codes is maintained here:
@@ -10,19 +11,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 */
 
 /**
- * @Entity(repositoryClass="Square\Entity\Repository\CountryRepository", readOnly="true")
- * @Table(name="country")
+ * @ORM\Entity(repositoryClass="Square\Entity\Repository\CountryRepository", readOnly=true)
+ * @ORM\Table(name="country")
  */
 class Country extends EntityBase {
 
-  /** @Id @Column(type="integer") @GeneratedValue */
+  /** @ORM\Id @ORM\Column(type="integer") @ORM\GeneratedValue */
     protected $id;  
  
-  /** @Column(type="string", length="255", unique=true) */
+  /** @ORM\Column(type="string", length=255, unique=true) */
     protected $name;
    
 
-  /** @Column(type="string", length="2", unique=true) */
+  /** @ORM\Column(type="string", length=2, unique=true) */
     protected $code;
 
     public function __construct(array $values = null)
