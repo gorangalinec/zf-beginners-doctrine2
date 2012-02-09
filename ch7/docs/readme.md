@@ -1,3 +1,7 @@
+### Still under construction
+
+   Chapter 7 is not done. Don't expect it to work yet.
+
 ### Setup 
 
 1. Be sure Doctrine is installed (and specified in your **include_path**). This code works with Doctrine v 2.2 and the latest

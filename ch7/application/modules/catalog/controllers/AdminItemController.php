@@ -38,9 +38,149 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
   // action to display list of catalog items
   public function indexAction()
   {
-     $stampItems = $this->service->findAll();
-          
-     $this->view->stampItems = $stampItems;
+         
+    // Vikram code for ch7
+    // set filters and validators for GET input
+    $filters = array(
+      'sort' => array('HtmlEntities', 'StripTags', 'StringTrim'),
+      'dir'  => array('HtmlEntities', 'StripTags', 'StringTrim'),
+      'page' => array('HtmlEntities', 'StripTags', 'StringTrim')
+    );        
+    $validators = array(
+      'sort' => array(
+        'Alpha', 
+        array('InArray', 'haystack' => 
+          array('RecordID', 'Title', 'Denomination', 'CountryID', 'GradeID', 'Year'))
+      ),
+      'dir'  => array(
+        'Alpha', array('InArray', 'haystack' => 
+          array('asc', 'desc'))
+      ),
+      'page' => array('Int')
+    );    
+    
+    $input = new Zend_Filter_Input($filters, $validators);
+    
+    $input->setData($this->getRequest()->getParams());
+        
+    // test if input is valid
+    // create query and set pager parameters
+    if ($input->isValid()) {
+     
+       /*  
+      $q = Doctrine_Query::create()
+            ->from('Square_Model_Item i')
+            ->leftJoin('i.Square_Model_Grade g')
+            ->leftJoin('i.Square_Model_Country c')
+            ->leftJoin('i.Square_Model_Type t')
+            ->orderBy(sprintf('%s %s', $input->sort, $input->dir));
+      */
+        
+     /* 
+      * http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
+      * 
+      * Starting with version 2.2 Doctrine ships with a Paginator for DQL queries. It has a very simple API and 
+      * implements the SPL interfaces Countable and IteratorAggregate.
+      */
+
+    // TODO: Change query to Vikram query. I need these StampItem properities:
+    // item id, title, denomation, country, grade, year.
+        
+    $dql = "SELECT s FROM Square\Entity\StampItem s JOIN s.country c"; // <-- check this.
+         
+    $query = $entityManager->createQuery($dql)
+                       ->setFirstResult(0)
+                       ->setMaxResults(100);
+    
+    $d2_paginator = Doctrine\ORM\Tools\Pagination\Paginator($query);
+        
+    $iter_adapter = new Zend_Paginator_Adapter_Iterator(
+                                        $d2paginator->getIterator()
+                                        );
+    
+    $zend_pagiantor = new Zend_Paginator($iter_adapter);
+    
+    // This code is from Vikram ch7.
+    //  configure pager
+    $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
+      
+    $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
+      
+    $perPage = $localConfig->admin->itemsPerPage;
+      
+    $numPageLinks = 5; // In Vikram's code this was used for the slider/layout. I may need sth. else?
+                       //  Compare the output of pagination shown in Vikram's book and compare this with Pope's
+                       // code or others code from ZF reference or articles. 
+                           
+    $zend_paginator->setItemCountPerPage($perPage)
+	            ->setCurrentPageNumber($input->page);
+                        
+    
+    /*
+    $c = count($paginator);
+    foreach ($paginator as $post) {
+        echo $post->getHeadline() . "\n";
+    }
+     */ 
+        
+    /*  
+     * Comment about the fetch-join flag.
+    From http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
+    Paginating Doctrine queries is not as simple as you might think in the beginning. If you have complex fetch-join
+    scenarios with one-to-many or many-to-many associations using the “default” LIMIT functionality of database vendors
+    is not sufficient to get the correct results.
+   
+    By default the pagination extension does the following steps to compute the correct result:
+
+        Perform a Count query using DISTINCT keyword.
+        Perform a Limit Subquery with DISTINCT to find all ids of the entity in from on the current page.
+        Perform a WHERE IN query to get all results for the current page.
+
+    This behavior is only necessary if you actually fetch join a to-many collection. You can disable this behavior by
+    setting the $fetchJoinCollection flag of, in that case only 2 instead of the 3 queries described are executed. 
+    We hope to automate the detection for this in the future.
+    */
+                         
+      // configure pager
+      $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
+      
+      $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
+      
+      $perPage = $localConfig->admin->itemsPerPage;
+      
+      $numPageLinks = 5;      
+      
+      // TODO: Change this.
+      // initialize pager
+      $pager = new Doctrine_Pager($q, $input->page, $perPage);
+      
+      // execute paged query
+      $result = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);            
+       
+      // initialize pager layout
+      // TODO: 
+      // Question: Is this a derived class I can reuse? I think probably I should
+      // change this to use Zend_Paginator and pass in the D2 paginator 'adaptor'.
+            
+      $pagerRange = new Doctrine_Pager_Range_Sliding(array('chunk' => $numPageLinks), $pager);
+      
+      $pagerUrlBase = $this->view->url(array(), 'admin-catalog-index', 1) . "/{%page}/{$input->sort}/{$input->dir}";
+      
+      // TODO: 
+      // Question: Is this a derived class I can reuse?
+      $pagerLayout = new Doctrine_Pager_Layout($pager, $pagerRange, $pagerUrlBase);
+      
+      // set page link display template
+      $pagerLayout->setTemplate('<a href="{%url}">{%page}</a>');
+      $pagerLayout->setSelectedTemplate('<span class="current">{%page}</span>');      
+      $pagerLayout->setSeparatorTemplate('&nbsp;');
+
+      // set view variables
+      $this->view->records = $result;
+      $this->view->pages = $pagerLayout->display(null, true);                  
+    } else {
+          throw new Zend_Controller_Action_Exception('Invalid input');                    
+    }
   }
 
   // action to delete catalog items
