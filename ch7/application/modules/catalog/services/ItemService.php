@@ -129,7 +129,7 @@ class Catalog_Service_ItemService implements FormElementOptionsRetrieval {
         return $result;
     }
     
-    // The 2nd parameter indicates whether to immediately create the item.
+        // The 2nd parameter indicates whether to immediately create the item.
     public function createItem(array $values, $flushNow = false)
     {
         $stamp_item = new StampItem($values);      

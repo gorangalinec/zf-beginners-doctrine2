@@ -62,20 +62,55 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
     $input = new Zend_Filter_Input($filters, $validators);
     
     $input->setData($this->getRequest()->getParams());
-        
+    
+    // OLD CODE START
+    /*
     // test if input is valid
     // create query and set pager parameters
     if ($input->isValid()) {
-     
-       /*  
+     // Start of original Vikram ch7 code:
+      
       $q = Doctrine_Query::create()
             ->from('Square_Model_Item i')
             ->leftJoin('i.Square_Model_Grade g')
             ->leftJoin('i.Square_Model_Country c')
             ->leftJoin('i.Square_Model_Type t')
             ->orderBy(sprintf('%s %s', $input->sort, $input->dir));
-      */
-        
+            
+      // configure pager
+      $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
+      
+      $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
+      
+      $perPage = $localConfig->admin->itemsPerPage;
+      
+      $numPageLinks = 5;      
+      
+      // initialize pager
+      $pager = new Doctrine_Pager($q, $input->page, $perPage);
+      
+      // execute paged query
+      $result = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);            
+       
+      // initialize pager layout
+      $pagerRange = new Doctrine_Pager_Range_Sliding(array('chunk' => $numPageLinks), $pager);
+      $pagerUrlBase = $this->view->url(array(), 'admin-catalog-index', 1) . "/{%page}/{$input->sort}/{$input->dir}";
+      $pagerLayout = new Doctrine_Pager_Layout($pager, $pagerRange, $pagerUrlBase);
+      
+      // set page link display template
+      $pagerLayout->setTemplate('<a href="{%url}">{%page}</a>');
+      $pagerLayout->setSelectedTemplate('<span class="current">{%page}</span>');      
+      $pagerLayout->setSeparatorTemplate('&nbsp;');
+
+      // set view variables
+      $this->view->records = $result;
+      $this->view->pages = $pagerLayout->display(null, true);                  
+    } else {
+      throw new Zend_Controller_Action_Exception('Invalid input');                    
+    }
+    // End original Vikram ch7 code.
+    */
+    
      /* 
       * http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
       * 
@@ -83,46 +118,17 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       * implements the SPL interfaces Countable and IteratorAggregate.
       */
 
-    // TODO: Change query to Vikram query. I need these StampItem properities:
-    // item id, title, denomation, country, grade, year.
-        
-    $dql = "SELECT s FROM Square\Entity\StampItem s JOIN s.country c"; // <-- check this.
-         
-    $query = $entityManager->createQuery($dql)
-                       ->setFirstResult(0)
-                       ->setMaxResults(100);
-    
-    $d2_paginator = Doctrine\ORM\Tools\Pagination\Paginator($query);
-        
-    $iter_adapter = new Zend_Paginator_Adapter_Iterator(
-                                        $d2paginator->getIterator()
-                                        );
-    
-    $zend_pagiantor = new Zend_Paginator($iter_adapter);
-    
-    // This code is from Vikram ch7.
-    //  configure pager
     $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
       
     $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
       
-    $perPage = $localConfig->admin->itemsPerPage;
       
-    $numPageLinks = 5; // In Vikram's code this was used for the slider/layout. I may need sth. else?
-                       //  Compare the output of pagination shown in Vikram's book and compare this with Pope's
-                       // code or others code from ZF reference or articles. 
-                           
-    $zend_paginator->setItemCountPerPage($perPage)
-	            ->setCurrentPageNumber($input->page);
-                        
-    
-    /*
-    $c = count($paginator);
-    foreach ($paginator as $post) {
-        echo $post->getHeadline() . "\n";
-    }
-     */ 
-        
+    //--$numPageLinks = 5;  This isn't relevant--I don't think--since I'm using Zend_Paginator and the _paginator.phtml partial.
+                       
+    $this->view->paginator = $this->service->getPaginatedStampItems($localConfig->admin->itemsPerPage,
+                                                                    $input->page,
+                                                                    $input->sort,
+                                                                    $input->dir);    
     /*  
      * Comment about the fetch-join flag.
     From http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
@@ -140,47 +146,7 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
     setting the $fetchJoinCollection flag of, in that case only 2 instead of the 3 queries described are executed. 
     We hope to automate the detection for this in the future.
     */
-                         
-      // configure pager
-      $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
       
-      $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
-      
-      $perPage = $localConfig->admin->itemsPerPage;
-      
-      $numPageLinks = 5;      
-      
-      // TODO: Change this.
-      // initialize pager
-      $pager = new Doctrine_Pager($q, $input->page, $perPage);
-      
-      // execute paged query
-      $result = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);            
-       
-      // initialize pager layout
-      // TODO: 
-      // Question: Is this a derived class I can reuse? I think probably I should
-      // change this to use Zend_Paginator and pass in the D2 paginator 'adaptor'.
-            
-      $pagerRange = new Doctrine_Pager_Range_Sliding(array('chunk' => $numPageLinks), $pager);
-      
-      $pagerUrlBase = $this->view->url(array(), 'admin-catalog-index', 1) . "/{%page}/{$input->sort}/{$input->dir}";
-      
-      // TODO: 
-      // Question: Is this a derived class I can reuse?
-      $pagerLayout = new Doctrine_Pager_Layout($pager, $pagerRange, $pagerUrlBase);
-      
-      // set page link display template
-      $pagerLayout->setTemplate('<a href="{%url}">{%page}</a>');
-      $pagerLayout->setSelectedTemplate('<span class="current">{%page}</span>');      
-      $pagerLayout->setSeparatorTemplate('&nbsp;');
-
-      // set view variables
-      $this->view->records = $result;
-      $this->view->pages = $pagerLayout->display(null, true);                  
-    } else {
-          throw new Zend_Controller_Action_Exception('Invalid input');                    
-    }
   }
 
   // action to delete catalog items

@@ -113,19 +113,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             
             
             $route = new Zend_Controller_Router_Route(
-                   '/admin/catalog/item/index/:page',
-                   array(
-                       'action' => 'index',
-                       'controller' => 'admin.item',
-                       'module' => 'catalog',
-                       'page' => 1,
-                      )
-                   );
-
-            $myroutes['admin-catalog-index'] = $route;
-            
-            /* This should be added later...and the ch5 and ch6 version changed to the simplier router w/o page=1
-            $route = new Zend_Controller_Router_Route(
                    '/admin/catalog/item/index/:page/:sort/:dir',
                    array(
                        'action' => 'index',
@@ -134,12 +121,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                        'page' => 1,
                        'sort' => 'id',
                        'dir'  => 'ASC'
-                     )
-                   );
+                        )
+                     );
 
             $myroutes['admin-catalog-index'] = $route;
-             * 
-             */
             
             $route = new Zend_Controller_Router_Route(
                    '/admin/catalog/item/display/:id',            

@@ -1,6 +1,5 @@
 <h2>List Items</h2>
-<!-- TODO: Change this from records -->
-<?php if (count($this->stampItems)): ?>
+<?php if (count($this->paginator->count())): ?>
 <div id="records">
   <form method="post" action="<?php echo $this->url(array(), 'admin-catalog-delete'); ?>">
     <table>
@@ -8,26 +7,39 @@
         <td></td>    
         <td class="key">
           Item ID
+        <!-- Up arrow '&uArr;' and down arrow '&dArr;' are used to set the sort direction -->
+          <a href="<?php echo $this->url(array('sort' => 'RecordID', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'RecordID', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>        
         </td>
         <td class="key">
           Title
+          <a href="<?php echo $this->url(array('sort' => 'Title', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'Title', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>        
         </td>
         <td class="key">
           Denomination
+          <a href="<?php echo $this->url(array('sort' => 'Denomination', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'Denomination', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>
         <td class="key">
           Country
+          <a href="<?php echo $this->url(array('sort' => 'CountryID', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'CountryID', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>
         <td class="key">
           Grade
+          <a href="<?php echo $this->url(array('sort' => 'GradeID', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'GradeID', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>
         <td class="key">
           Year
+          <a href="<?php echo $this->url(array('sort' => 'Year', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'Year', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>    
         <td></td>    
         <td></td>    
       </tr>
-      <?php foreach ($this->stampItems as $item):?>
+      <?php foreach ($this->paginator as $item):?>
       <tr>
         <td><input type="checkbox" name="ids[]" value="<?php echo $item->id; ?>" style="width:2px" /></td>
         <td><?php echo $this->escape($item->id); ?></td>
@@ -44,11 +56,12 @@
         <td colspan="7"><input type="submit" name="submit" style="width:150px" value="Delete Selected" /></td>
         <td colspan="2"><a href="<?php echo $this->url(array(), 'admin-fulltext-index-create'); ?>">Update full-text indices</a></td>
       </tr>    
-      
     </table>
   </form>
 </div>
-
+<?= $this->paginationControl($this->products,
+                             'Sliding',
+                             './admin-item/_pagination.phtml'); ?>
 <?php else: ?>
 No records found
 <?php endif; ?>

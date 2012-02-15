@@ -1,8 +1,10 @@
 <?php
 namespace Square\Entity\Repository;
 
+// 'use  Doctrine\ORM\EntityRepository' is for Query::HYDRATE_XXX consts
 use Doctrine\ORM\Query,
-    Doctrine\ORM\EntityRepository; // For Query::HYDRATE_XXX consts
+    Doctrine\ORM\EntityRepository,
+    Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * StampItemRepository
@@ -64,7 +66,44 @@ class StampItemRepository extends EntityRepository {
       return $stampItems;
         
     }
- 
+    
+   /*
+    * input: items per page
+    * output: Zend_Paginator
+    */
+    public function getPaginatedStampItems($perPage, $current_page, $sort, $dir)
+    {
+    /*
+     * Read http://readthedocs.org/docs/doctrine-orm/en/latest/tutorials/pagination.html?highlight=Paginator
+     * the pagination that the Doctrine 2 Pagignator uses seems to be the value of setMaxResults() above.
+     */
+        
+     $orderby = ' ORDER BY s.' . $sort . ' ' . $dir;
+     
+     $dql = "SELECT s, c FROM Square\Entity\StampItem s JOIN s.country c " . $orderby; 
+     
+     //--$dql = "SELECT s, c FROM Square\Entity\StampItem s JOIN s.country c ";
+     
+         
+     $query = $this->getEntityManager()->createQuery($dql)
+                       ->setFirstResult(0)
+                       ->setMaxResults($perPage); // The items-per-page paginator value.
+     
+     $d2_paginator = new Paginator($query);
+     $d2_paginator_iter = $d2_paginator->getIterator();
+     
+     $adapter =  new \Zend_Paginator_Adapter_Iterator($d2_paginator_iter);
+      
+     $zend_paginator = new \Zend_Paginator($adapter);          
+                           
+     $zend_paginator->setItemCountPerPage($perPage)
+	            ->setCurrentPageNumber($current_page);
+     
+     return $zend_paginator;
+        
+    }
+   
+
     public function getDisplayableItemIfNotExpired($id)
     {
       $dql = "SELECT s FROM Square\Entity\StampItem s WHERE s.id = :id AND s.displaystatus = :status AND s.displayuntil >= CURRENT_DATE()";
