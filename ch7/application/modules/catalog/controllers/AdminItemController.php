@@ -50,7 +50,7 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       'sort' => array(
         'Alpha', 
         array('InArray', 'haystack' => 
-          array('RecordID', 'Title', 'Denomination', 'CountryID', 'GradeID', 'Year'))
+          array('id', 'title', 'denomination', 'country', 'grade', 'creationdate')) // What should 'country' be?
       ),
       'dir'  => array(
         'Alpha', array('InArray', 'haystack' => 
@@ -63,69 +63,23 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
     
     $input->setData($this->getRequest()->getParams());
     
-    // OLD CODE START
-    /*
-    // test if input is valid
-    // create query and set pager parameters
-    if ($input->isValid()) {
-     // Start of original Vikram ch7 code:
-      
-      $q = Doctrine_Query::create()
-            ->from('Square_Model_Item i')
-            ->leftJoin('i.Square_Model_Grade g')
-            ->leftJoin('i.Square_Model_Country c')
-            ->leftJoin('i.Square_Model_Type t')
-            ->orderBy(sprintf('%s %s', $input->sort, $input->dir));
-            
-      // configure pager
-      $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
-      
-      $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
-      
-      $perPage = $localConfig->admin->itemsPerPage;
-      
-      $numPageLinks = 5;      
-      
-      // initialize pager
-      $pager = new Doctrine_Pager($q, $input->page, $perPage);
-      
-      // execute paged query
-      $result = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);            
-       
-      // initialize pager layout
-      $pagerRange = new Doctrine_Pager_Range_Sliding(array('chunk' => $numPageLinks), $pager);
-      $pagerUrlBase = $this->view->url(array(), 'admin-catalog-index', 1) . "/{%page}/{$input->sort}/{$input->dir}";
-      $pagerLayout = new Doctrine_Pager_Layout($pager, $pagerRange, $pagerUrlBase);
-      
-      // set page link display template
-      $pagerLayout->setTemplate('<a href="{%url}">{%page}</a>');
-      $pagerLayout->setSelectedTemplate('<span class="current">{%page}</span>');      
-      $pagerLayout->setSeparatorTemplate('&nbsp;');
-
-      // set view variables
-      $this->view->records = $result;
-      $this->view->pages = $pagerLayout->display(null, true);                  
-    } else {
-      throw new Zend_Controller_Action_Exception('Invalid input');                    
-    }
-    // End original Vikram ch7 code.
-    */
-    
      /* 
       * http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
       * 
       * Starting with version 2.2 Doctrine ships with a Paginator for DQL queries. It has a very simple API and 
       * implements the SPL interfaces Countable and IteratorAggregate.
       */
-
-    $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
+    
+    if ($input->isValid()) {
+        
+        $configs = $this->getInvokeArg('bootstrap')->getOption('configs');
       
-    $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
+        $localConfig = new Zend_Config_Ini($configs['localConfigPath']);        
       
       
-    //--$numPageLinks = 5;  This isn't relevant--I don't think--since I'm using Zend_Paginator and the _paginator.phtml partial.
-                       
-    $this->view->paginator = $this->service->getPaginatedStampItems($localConfig->admin->itemsPerPage,
+        //--$numPageLinks = 5;  This isn't relevant--I don't think--since I'm using Zend_Paginator and the _paginator.phtml partial.
+                               
+        $this->view->paginator = $this->service->getPaginatedStampItems($localConfig->admin->itemsPerPage,
                                                                     $input->page,
                                                                     $input->sort,
                                                                     $input->dir);    
@@ -133,7 +87,7 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
      * Comment about the fetch-join flag.
     From http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
     Paginating Doctrine queries is not as simple as you might think in the beginning. If you have complex fetch-join
-    scenarios with one-to-many or many-to-many associations using the “default” LIMIT functionality of database vendors
+    scenarios with one-to-many or many-to-many associations using, the “default” LIMIT functionality of database vendors
     is not sufficient to get the correct results.
    
     By default the pagination extension does the following steps to compute the correct result:
@@ -146,6 +100,10 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
     setting the $fetchJoinCollection flag of, in that case only 2 instead of the 3 queries described are executed. 
     We hope to automate the detection for this in the future.
     */
+   } else {
+        
+         throw new Zend_Controller_Action_Exception('Invalid input');                    
+   }
       
   }
 

@@ -120,7 +120,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                        'module' => 'catalog',
                        'page' => 1,
                        'sort' => 'id',
-                       'dir'  => 'ASC'
+                       'dir'  => 'asc'  // This must be lowercase.
                         )
                      );
 

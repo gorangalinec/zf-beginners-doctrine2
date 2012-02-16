@@ -78,18 +78,23 @@ class StampItemRepository extends EntityRepository {
      * the pagination that the Doctrine 2 Pagignator uses seems to be the value of setMaxResults() above.
      */
         
-     $orderby = ' ORDER BY s.' . $sort . ' ' . $dir;
-     
-     $dql = "SELECT s, c FROM Square\Entity\StampItem s JOIN s.country c " . $orderby; 
-     
-     //--$dql = "SELECT s, c FROM Square\Entity\StampItem s JOIN s.country c ";
-     
+     if ($sort == 'country')  {
          
-     $query = $this->getEntityManager()->createQuery($dql)
+         $orderBy = 'c.name';
+         
+     }  else {
+         
+         $orderBy = 's.' . $sort;
+     }  
+     
+     $dql = "SELECT s, c FROM Square\Entity\StampItem s JOIN s.country c " . ' ORDER BY ' . $orderBy . ' ' . $dir;
+     
+          $query = $this->getEntityManager()->createQuery($dql)
                        ->setFirstResult(0)
                        ->setMaxResults($perPage); // The items-per-page paginator value.
      
      $d2_paginator = new Paginator($query);
+     
      $d2_paginator_iter = $d2_paginator->getIterator();
      
      $adapter =  new \Zend_Paginator_Adapter_Iterator($d2_paginator_iter);

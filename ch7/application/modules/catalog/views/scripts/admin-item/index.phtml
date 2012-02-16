@@ -8,33 +8,35 @@
         <td class="key">
           Item ID
         <!-- Up arrow '&uArr;' and down arrow '&dArr;' are used to set the sort direction -->
-          <a href="<?php echo $this->url(array('sort' => 'RecordID', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
-          <a href="<?php echo $this->url(array('sort' => 'RecordID', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>        
+          <a href="<?php echo $this->url(array('sort' => 'id', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'id', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>        
         </td>
         <td class="key">
-          Title
-          <a href="<?php echo $this->url(array('sort' => 'Title', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
-          <a href="<?php echo $this->url(array('sort' => 'Title', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>        
+          title
+          <a href="<?php echo $this->url(array('sort' => 'title', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'title', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>        
         </td>
         <td class="key">
           Denomination
-          <a href="<?php echo $this->url(array('sort' => 'Denomination', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
-          <a href="<?php echo $this->url(array('sort' => 'Denomination', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
+          <a href="<?php echo $this->url(array('sort' => 'denomination', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'denomination', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>
         <td class="key">
           Country
-          <a href="<?php echo $this->url(array('sort' => 'CountryID', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
-          <a href="<?php echo $this->url(array('sort' => 'CountryID', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
+          <!-- Should this be country.id? -->
+          <a href="<?php echo $this->url(array('sort' => 'country', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'country', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>
         <td class="key">
           Grade
-          <a href="<?php echo $this->url(array('sort' => 'GradeID', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
-          <a href="<?php echo $this->url(array('sort' => 'GradeID', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
+          <a href="<?php echo $this->url(array('sort' => 'grade', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'grade', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>
         <td class="key">
           Year
-          <a href="<?php echo $this->url(array('sort' => 'Year', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
-          <a href="<?php echo $this->url(array('sort' => 'Year', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
+          <!-- Changed 'Year' to 'creationdate' -->
+	  <a href="<?php echo $this->url(array('sort' => 'creationdate', 'dir' => 'asc'), 'admin-catalog-index'); ?>">&uArr;</a> 
+          <a href="<?php echo $this->url(array('sort' => 'creationdate', 'dir' => 'desc'), 'admin-catalog-index'); ?>">&dArr;</a>                
         </td>    
         <td></td>    
         <td></td>    
