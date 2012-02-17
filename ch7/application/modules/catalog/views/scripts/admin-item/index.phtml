@@ -1,5 +1,6 @@
 <h2>List Items</h2>
-<?php if (count($this->paginator->count())): ?>
+<?php 
+if (count($this->paginator)): ?>
 <div id="records">
   <form method="post" action="<?php echo $this->url(array(), 'admin-catalog-delete'); ?>">
     <table>

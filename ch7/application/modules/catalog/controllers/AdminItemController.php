@@ -54,7 +54,7 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       ),
       'dir'  => array(
         'Alpha', array('InArray', 'haystack' => 
-          array('asc', 'desc'))
+          array('asc', 'desc')) 
       ),
       'page' => array('Int')
     );    
@@ -79,13 +79,13 @@ class Catalog_AdminItemController extends Zend_Controller_Action {
       
         //--$numPageLinks = 5;  This isn't relevant--I don't think--since I'm using Zend_Paginator and the _paginator.phtml partial.
                                
-        $this->view->paginator = $this->service->getPaginatedStampItems($localConfig->admin->itemsPerPage,
-                                                                    $input->page,
+        $this->view->paginator = $this->service->getPaginatedStampItems((int)$localConfig->admin->itemsPerPage,
+                                                                    (int) $input->page,
                                                                     $input->sort,
                                                                     $input->dir);    
     /*  
-     * Comment about the fetch-join flag.
-    From http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
+     * Comment about the fetch-join flag from:
+    http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/pagination.html states:
     Paginating Doctrine queries is not as simple as you might think in the beginning. If you have complex fetch-join
     scenarios with one-to-many or many-to-many associations using, the “default” LIMIT functionality of database vendors
     is not sufficient to get the correct results.

@@ -89,23 +89,16 @@ class StampItemRepository extends EntityRepository {
      
      $dql = "SELECT s, c FROM Square\Entity\StampItem s JOIN s.country c " . ' ORDER BY ' . $orderBy . ' ' . $dir;
      
-          $query = $this->getEntityManager()->createQuery($dql)
-                       ->setFirstResult(0)
-                       ->setMaxResults($perPage); // The items-per-page paginator value.
+     $query = $this->getEntityManager()->createQuery($dql);
+                          
+     $d2_paginator = new Paginator($query); // Where does this retrieve the 'items per page'?
      
-     $d2_paginator = new Paginator($query);
+     $zend_paginator = new \Zend_Paginator(new \Zend_Paginator_Adapter_Iterator($d2_paginator->getIterator())                                );   
      
-     $d2_paginator_iter = $d2_paginator->getIterator();
-     
-     $adapter =  new \Zend_Paginator_Adapter_Iterator($d2_paginator_iter);
-      
-     $zend_paginator = new \Zend_Paginator($adapter);          
-                           
      $zend_paginator->setItemCountPerPage($perPage)
 	            ->setCurrentPageNumber($current_page);
-     
+    
      return $zend_paginator;
-        
     }
    
 
