@@ -76,16 +76,16 @@
    they reside in application/forms not in library/Square/Form. Likewise, forms classes used exclusively in the catalog module begin with Catalog_Form prefix, 
    and they reside in application/modules/catalog/forms. 
 
-5. Unlike the book, routes were not configured in application.ini, but instead are programmatically created in application/Bootstrap.php,
-   where they are cached. 
+4. Unlike the book, routes were not configured in application.ini, but instead are programmatically created in application/Bootstrap.php,
+   where they are cached (in ./data/cache).
 
-6. Due to #3, caching support was added to cache the routes array. ./data/cache should be both read- and writeable by the webserver.  
+5. Due to #3, caching support was added to cache the routes array. ./data/cache should be both read- and writeable by the webserver.  
    Important: If you add new routes to Bootstrap.php, you must erase the cache files under ./data/cache; otherwise, your new routes won't
    be recognized until the cache expires. 
 
-7. A service layer, in application/modules/catalog/services, is used by the the catalog controllers.
+6. A service layer, in application/modules/catalog/services, is used by the the catalog controllers.
 
-8. Email sent from the contact form is not immediately sent. Instead it is saved to a Zend_Queue database and processed using
+7. Email sent from the contact form is not immediately sent. Instead it is saved to a Zend_Queue database and processed using
    a cron job. The sql for creating the Zend queue database is in ./scripts/zendqueue.sql. The cron job is ./scripts/queue-process.
    Once you create the database, you will need to change the queue.xxx and email.xxx sections of the application.ini file.
 
