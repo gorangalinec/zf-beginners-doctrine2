@@ -62,7 +62,7 @@ if (count($this->paginator)): ?>
     </table>
   </form>
 </div>
-<?= $this->paginationControl($this->products,
+<?php $this->paginationControl($this->products,
                              'Sliding',
                              './admin-item/_pagination.phtml'); ?>
 <?php else: ?>
